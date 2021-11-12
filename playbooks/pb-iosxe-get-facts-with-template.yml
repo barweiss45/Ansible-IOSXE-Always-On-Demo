@@ -1,0 +1,23 @@
+---
+# This playbook is very basic and is used to demonstrate the basics about ansible
+- name: "PLAY 1 - This playbook gathers facts and prints them in the output and then saves it to the output folder"
+  hosts: routers           # THIS WILL REFER TO THE HOST/GROUP THAT THIS PLAY IS TARGETING
+  connection: network_cli  # FOR NETWORK DEVICES THE CONNECTION WILL BE 'network_cli'
+  tasks:                   # BELOW TASKS IS WHERE EACH TASK IS DEFINED
+    - name: "TASK 1: Connect to the device to gather facts about it"
+      ios_facts:
+      register: raw_facts
+
+    - name: "TASK 2: DESCRIBE THE SECOND TASK"
+      debug:
+        msg: "The hostname is {{ ansible_net_hostname }} and the OS is {{ ansible_net_version }}"
+
+    - name: "TASK 3: send the output of raw_facts to a nice template and print it to a file"
+      copy:
+        content: "{{ lookup( 'template', '../templates/facts-template.j2') }}"
+        dest: "outputs/{{ inventory_hostname }}.txt"
+        mode: 0664
+
+    - name: "TASK 4: Print the raw output"
+      debug:
+        msg: "{{ raw_facts }}"
