@@ -2,25 +2,6 @@
 all:
   children:
     routers:
-      children:
-        ios:
-          hosts:
-            IOS-R1:
-              ansible_host: 172.17.82.50
-            IOS-R2:
-              ansible_host: 172.17.82.51
-            IOS-R3:
-              ansible_host: 172.17.82.52
-            IOS-R4:
-              ansible_host: 172.17.82.54
-            IOS-R5:
-              ansible_host: 172.17.82.55
-            IOS-R6:
-              ansible_host: 172.17.82.56
-        ios_xr:
-          hosts:
-            IOSXR-R1:
-              ansible_host: 172.17.82.53
-            IOSXR-R2:
-              ansible_host: 172.17.82.57
+      hosts:
+        sandbox-iosxe-recomm-1.cisco.com:
               
