@@ -1,7 +1,7 @@
 FROM ubuntu:focal
 
 LABEL maintainer="Barry Weiss <barweiss@cisco.com>"
-LABEL version="1.0"
+LABEL version="1.1"
 LABEL description="Container to be used with barewiss45/Ansible-IOSXE-Always-On-Demo repo"
 
 ENV DEBIAN_FRONTEND noninteractive
