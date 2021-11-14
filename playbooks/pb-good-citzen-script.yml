@@ -1,11 +1,11 @@
 ---
-- name: "PLAY 1 - This playbook configures a loopback interface using a cli_conig module and a jinja"
+- name: "PLAY 1 - This playbook removes the loopback interfaces using a cli_conig module and a jinja"
   hosts: routers            # THIS WILL REFER TO THE HOST/GROUP THAT THIS PLAY IS TARGETING
   connection: network_cli   # FOR NETWORK DEVICES THE CONNECTION WILL BE 'network_cli'
   tasks:                    # BELOW TASKS IS WHERE EACH TASK IS DEFINED
-    - name: "TASK 1: Configure the loopback interfaces that are listed in the host_vars/ directory"
+    - name: "TASK 1: Remove the loopback interfaces that are listed in the host_vars/ directory"
       cli_config:
-        config: "{{ lookup('template', '../templates/interface-template.j2') }}"
+        config: "{{ lookup('template', '../templates/good-citizen-interface-template.j2') }}"
       notify: config_changed  # a conditional that notifies the handler below if the configuration has changed.
       register: cli_result    # save the output to the 'cli_result'
 
