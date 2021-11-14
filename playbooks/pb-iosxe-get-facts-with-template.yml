@@ -12,12 +12,12 @@
       debug:
         msg: "The hostname is {{ ansible_net_hostname }} and the OS is {{ ansible_net_version }}"
 
+    - name: "TASK 3: Print the raw output"
+      debug:
+        msg: "{{ raw_facts }}"
+
     - name: "TASK 3: send the output of raw_facts to a nice template and print it to a file"
       copy:
         content: "{{ lookup( 'template', '../templates/facts-template.j2') }}"
         dest: "outputs/{{ inventory_hostname }}.txt"
         mode: 0664
-
-    - name: "TASK 4: Print the raw output"
-      debug:
-        msg: "{{ raw_facts }}"
