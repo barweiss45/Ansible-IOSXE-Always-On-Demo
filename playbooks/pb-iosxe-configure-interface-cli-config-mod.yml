@@ -1,16 +1,16 @@
 ---
-- name: "PLAY 1 - This playbook configures a loopback interface using a cli_conig module and a jinja"
+- name: "PLAY 1: This playbook configures loopback interfaces on sandbox-iosxe-recomm-1.cisco.com using a cli_conig module and a jinja"
   hosts: routers            # THIS WILL REFER TO THE HOST/GROUP THAT THIS PLAY IS TARGETING
   connection: network_cli   # FOR NETWORK DEVICES THE CONNECTION WILL BE 'network_cli'
   tasks:                    # BELOW TASKS IS WHERE EACH TASK IS DEFINED
-    - name: "TASK 1 - Configure the loopback interfaces that are listed in the host_vars/ directory"
+    - name: "TASK 1: Configure the loopback interfaces that are listed in the host_vars/ directory"
       cli_config:
         config: "{{ lookup('template', '../templates/interface-template.j2') }}"
       notify: config_changed  # a conditional that notifies the handler below if the configuration has changed.
       register: cli_result    # save the output to the 'cli_result'
 
   handlers:
-    - name: "HANDLER OUTPUT - Display output of Task 3 if configure has changed"
+    - name: "HANDLER OUTPUT: Display output of TASK 1 if configure has changed"
       listen: config_changed  # If the notify sends then config_changed then run debug.msg below
       debug:
         msg: "{{ cli_result }}"
