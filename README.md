@@ -24,9 +24,12 @@ This is a list of skills that I am asssuming you have prior to running through t
 * Basic Python and Programmaility
 
 ## About DevNet's Always On Labs
+
 Information about DevNet's "Always On" lab can be found on [devnetsandbox.cisco.com](https://devnetsandbox.cisco.com). You will be required to login to DevNet (developer.cisco.com). If you do not have a DevNet login then you'll need to register, but don't worry, its free. You don't have to access the device from the web page to do this demo. Everything is already set up for you, but I figured I'd provide you this information if you would like to learn more.
 
 ![Screenshot information for the "IOS XE on CSR Recommended Code Always On Sandbox](https://lucid.app/publicSegments/view/4f99bd87-ff95-4e6e-b739-fa5a3d8591be/image.png)
+
+If you find there is an issue with accessing the labs, please reach out to the DevNet Sandbox team on the Cisco Community forums. They are very response and should be able to fix the issue with in 24 hours or so. Here is a direct link to the sub-group forum: [community.cisco.com/t5/devnet-sandbox/bd-p/4426j-disc-dev-devnet-sandbox](https://community.cisco.com/t5/devnet-sandbox/bd-p/4426j-disc-dev-devnet-sandbox)
 
 ## Setting up Docker
 
@@ -39,6 +42,12 @@ If you do not have Docker installed on your system, that is fine. I will provide
 * [General Docker Install Information](https://docs.docker.com/engine/install/)
 
 ## Cloning Repo and Building the Container
+
+**NOTE:** All instruction will be given in the command line. You can use a gui for some of the things I will talk about below, but the instuction will vary from GUI application to GUI appliacation so it is easier for me to present this information in the command line format.
+
+:warning:**Before you start** It is assumed that you have ```git``` on your computer. If you are unsure if it is installed on your computer, then run the following in the command line:
+```git --version```
+If you you receive an error then ```git``` is probably not installed. If you need to install ```git``` then please visit this [page](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and follow the instructions there.
 
 ## Accessing The lab
 
