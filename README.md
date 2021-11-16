@@ -145,6 +145,30 @@ Access the lab once the container is very straightfoward. After the container is
 
 ## Exploring the Anisble File Structure
 
+```tree
+.
+├── Dockerfile
+├── LICENSE
+├── README.md
+├── ansible.cfg
+├── group_vars
+│   └── routers.yml
+├── host_vars
+│   └── sandbox-iosxe-recomm-1.cisco.com.yml
+├── inv.yml
+├── playbooks
+│   ├── pb-good-citzen-script.yml
+│   ├── pb-iosxe-configure-interface-cli-config-mod.yml
+│   ├── pb-iosxe-get-facts-with-template.yml
+│   ├── pb-iosxe-get-facts.yml
+│   └── playbook-template.yml
+├── requirements.txt
+└── templates
+    ├── facts-template.j2
+    ├── good-citizen-interface-template.j2
+    └── interface-template.j2
+```
+
 ## Running a Ansible Playbook
 
 ### The Anatomy of a Playbook
