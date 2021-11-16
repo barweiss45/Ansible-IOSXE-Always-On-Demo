@@ -18,3 +18,8 @@ interfaces:
     description: "This is a loopback configured by ansible"
     ipv4addr: "10.123.123.103"
     subnet: "255.255.255.255"
+
+  Loopback104:
+    description: "This is a loopback configured by ansible"
+    ipv4addr: "10.123.123.104"
+    subnet: "255.255.255.255"
