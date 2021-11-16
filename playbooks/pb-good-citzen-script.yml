@@ -1,5 +1,5 @@
 ---
-- name: "PLAY 1 - This playbook removes the loopback interfaces using a cli_conig module and a jinja"
+- name: "PLAY 1: This playbook removes the loopback interfaces using a cli_conig module and a jinja"
   hosts: routers            # THIS WILL REFER TO THE HOST/GROUP THAT THIS PLAY IS TARGETING
   connection: network_cli   # FOR NETWORK DEVICES THE CONNECTION WILL BE 'network_cli'
   tasks:                    # BELOW TASKS IS WHERE EACH TASK IS DEFINED

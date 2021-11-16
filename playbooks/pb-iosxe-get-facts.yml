@@ -1,6 +1,6 @@
 ---
 # This playbook is very basic and is used to demonstrate the basics about ansible
-- name: "PLAY 1 - This playbook gathers facts from 'sandbox-iosxe-recomm-1.cisco.com' and prints them in the output"
+- name: "PLAY 1: This playbook gathers facts from 'sandbox-iosxe-recomm-1.cisco.com' and prints them in the output"
   hosts: routers           # THIS WILL REFER TO THE HOST/GROUP THAT THIS PLAY IS TARGETING
   connection: network_cli  # FOR NETWORK DEVICES THE CONNECTION WILL BE 'network_cli'
   tasks:                   # BELOW TASKS IS WHERE EACH TASK IS DEFINED
