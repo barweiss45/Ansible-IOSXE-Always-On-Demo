@@ -45,7 +45,7 @@ If you do not have Docker installed on your system, that is fine. I will provide
 
 **NOTE:** All instruction will be given in the command line. You can use a gui for some of the things I will talk about below, but the instuction will vary from GUI application to GUI appliacation so it is easier for me to present this information in the command line format.
 
-:warning: **Before you start** It is assumed that you have ```git``` on your computer. If you are unsure if it is installed on your computer, then run the following in the command line:
+:warning:&nbsp; **Before you start!** It is assumed that you have ```git``` on your computer. If you are unsure if it is installed on your computer, then run the following in the command line:
 ```git --version```
 If you you receive an error then ```git``` is probably not installed. If you need to install ```git``` then please visit this [page](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and follow the instructions there.
 
@@ -68,7 +68,7 @@ If you you receive an error then ```git``` is probably not installed. If you nee
     docker --version
     ```
 
-4. As mentioned before I have created a ```Dockerfile``` so that you can run this demo out of my prebuilt and tested environment. To build the Docker container, you can run the following commands. In order for this command to work you need to be in the Ansible-IOSXE-Always-On-Demo folder. See step 2 if you are unsure. :warning: Be aware that the initial build of this container may take upwards to 5 to 10 minutes depending on your internet connection and local machine.
+4. As mentioned before I have created a ```Dockerfile``` so that you can run this demo out of my prebuilt and tested environment. To build the Docker container, you can run the following commands. In order for this command to work you need to be in the Ansible-IOSXE-Always-On-Demo folder. See step 2 if you are unsure. :warning:&nbsp; Be aware that the initial build of this container may take upwards to 5 to 10 minutes depending on your internet connection and local machine.
 
     ```bash
     docker build -t ansible-iosxe-always-on-demo:latest --name ansible-demo .
