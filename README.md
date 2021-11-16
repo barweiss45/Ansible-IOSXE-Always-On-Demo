@@ -68,10 +68,12 @@ If you you receive an error then ```git``` is probably not installed. If you nee
     docker --version
     ```
 
-4. As mentioned before I have created a ```Dockerfile``` so that you can run this demo out of my prebuilt and tested environment. To build the Docker container, you can run the following commands. In order for this command to work you need to be in the Ansible-IOSXE-Always-On-Demo folder. See step 2 if you are unsure. :warning:&nbsp; Be aware that the initial build of this container may take upwards to 5 to 10 minutes depending on your internet connection and local machine.
+4. As mentioned before I have created a ```Dockerfile``` so that you can run this demo out of my prebuilt and tested environment. To build the Docker container, you can run the following commands. In order for this command to work you need to be in the Ansible-IOSXE-Always-On-Demo folder. See step 2 if you are unsure.
+
+   :warning:&nbsp; Be aware that the initial build of this container may take upwards to 5 to 10 minutes depending on your internet connection and local machine.
 
     ```bash
-    docker build -t ansible-iosxe-always-on-demo:latest --name ansible-demo .
+    docker build -t ansible-iosxe-always-on-demo:latest  .
     ```
 
 5. After you have built the container then verify that the image is now in your local container repository.
@@ -83,6 +85,63 @@ If you you receive an error then ```git``` is probably not installed. If you nee
 6. Your output should look something like this. Once you are at this point you are ready to start the container and begin the demo. Please move on to the next section [Accessing The Lab](#accessing-the-lab) below.
 
 ## Accessing The Lab
+
+Access the lab once the container is very straightfoward. After the container is built you will need to first run it. The way that I demonstrate has you open a second ```bash``` session to log it. This way if you exit out of the container you don't stop the container. If you do stop the container then you just simply need to restart the contaier by running the command ```docker start ansible-demo```.
+
+1. First you will need to run the container to get it going.
+
+    ```bash
+    docker run -dit --name ansible-demo ansible-iosxe-always-on-demo:latest bash
+    ```
+
+2. If the command is successful you will see a container ID (is a hash) returned in the next line. You can also verify with the following command.
+
+    ```bash
+    docker ps -a
+    ```
+
+3. Once you have verified that the container is running they log into it by running the following command.
+
+    ```bash
+    docker exec -it ansible-demo bash
+    ```
+
+4. When you are in the container you will see see a prompt that will look similar to this, ```root@c91ff98ffdec:~#```. The container ID will likely be different than what you see in the example. Verify the file structure, you should be in the home directory of root on the container. It should like what you see below.
+
+    ```bash
+    root@c91ff98ffdec:~# ls -al
+    total 36
+    drwx------ 1 root root 4096 Nov 15 21:10 .
+    drwxr-xr-x 1 root root 4096 Nov 15 21:10 ..
+    drwx------ 4 root root 4096 Nov 15 21:11 .ansible
+    -rw-r--r-- 1 root root 3106 Dec  5  2019 .bashrc
+    drwx------ 1 root root 4096 Nov 14 04:31 .cache
+    -rw-r--r-- 1 root root  161 Dec  5  2019 .profile
+    drwxr-xr-x 1 root root 4096 Nov 14 04:31 .pyenv
+    drwxr-xr-x 1 root root 4096 Nov 14 04:32 Ansible-IOSXE-Always-On-Demo
+    -rw-rw-r-- 1 root root  613 Nov 11 21:58 requirements.txt
+    root@c91ff98ffdec:~# 
+    ```
+
+5. Change to the ```Ansible-IOSXE-Always-On-Demo``` directory in the container.
+
+    ```bash
+    cd Ansible-IOSXE-Always-On-Demo
+    ```
+
+6. Once you are the ```Ansible-IOSXE-Always-On-Demo``` directory you are ready to start the lab.
+
+7. When you are done with the labe you can simply type ```exit```. If you would like to stop the container then running the following command after you have exited it.
+
+    ```bash
+    docker stop ansible-demo
+    ```
+
+8. If you want to restart the container you can then run the following command.
+
+    ```bash
+    docker start ansible-demo
+    ```
 
 ## Exploring the Anisble File Structure
 
