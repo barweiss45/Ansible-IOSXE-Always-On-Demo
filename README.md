@@ -45,11 +45,44 @@ If you do not have Docker installed on your system, that is fine. I will provide
 
 **NOTE:** All instruction will be given in the command line. You can use a gui for some of the things I will talk about below, but the instuction will vary from GUI application to GUI appliacation so it is easier for me to present this information in the command line format.
 
-:warning:**Before you start** It is assumed that you have ```git``` on your computer. If you are unsure if it is installed on your computer, then run the following in the command line:
+:warning: **Before you start** It is assumed that you have ```git``` on your computer. If you are unsure if it is installed on your computer, then run the following in the command line:
 ```git --version```
 If you you receive an error then ```git``` is probably not installed. If you need to install ```git``` then please visit this [page](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and follow the instructions there.
 
-## Accessing The lab
+1. Create a directory for this repo and then clone it do that directory.
+
+    ```bash
+    mkdir Ansible-IOSXE-Always-On-Demo
+    git clone https://github.com/barweiss45/Ansible-IOSXE-Always-On-Demo.git
+    ```
+
+2. Change the directory to to the cloned repo of Ansible-IOSXE-Always-On-Demo.
+
+    ```bash
+    cd Ansible-IOSXE-Always-On-Demo
+    ```
+
+3. Ensure that you have your container environment ready. If not see [Setting up Docker](#setting-up-docker). If you are using Docker you can verify this by running the following command. If you don't get the expected output when you check for the version then Docker is probably not installed.
+
+    ```bash
+    docker --version
+    ```
+
+4. As mentioned before I have created a ```Dockerfile``` so that you can run this demo out of my prebuilt and tested environment. To build the Docker container, you can run the following commands. In order for this command to work you need to be in the Ansible-IOSXE-Always-On-Demo folder. See step 2 if you are unsure. :warning: Be aware that the initial build of this container may take upwards to 5 to 10 minutes depending on your internet connection and local machine.
+
+    ```bash
+    docker build -t ansible-iosxe-always-on-demo:latest --name ansible-demo .
+    ```
+
+5. After you have built the container then verify that the image is now in your local container repository.
+
+    ```bash
+    docker images
+    ```
+
+6. Your output should look something like this. Once you are at this point you are ready to start the container and begin the demo. Please move on to the next section [Accessing The Lab](#accessing-the-lab) below.
+
+## Accessing The Lab
 
 ## Exploring the Anisble File Structure
 
