@@ -182,7 +182,41 @@ There are some folders here that you are not really part of 'Ansible' but just p
 
 ## Running a Ansible Playbook
 
+Let's start your Ansible demonstration here!
+
+1. Be sure you are in the ```Ansible-IOSXE-Always-On-Demo``` folder.
+
+    ```bash
+    pwd
+    ```
+
+2. To be sure that the always on device is available, let's ssh into sandbox-iosxe-recomm-1.cisco.com since ping will not work.
+
+    ```bash
+    ssh developer@sandbox-iosxe-recomm-1.cisco.com
+    ```
+
+    The password is ```C1sco12345```. 
+    You should be able to log into the CSR. Once you are logged in you can log back out.
+
+3. So let's gather some information about this device.
+
 ### The Anatomy of a Playbook
+
+Ansible uses a YAML file called a playbook, which is a set of instructions that tells Ansible what you want it to do. The **playbook** can be made up of one or more plays. A **play** tells Ansible who it is connecting to and how it is connecting, although there are some other options at this level but we wont worry about that right now. The **play** consists of **tasks** and they are where the action happens. The **tasks** are mae up of modules that tell Anisble what to do and it is here that Ansible pulls together the variables found in the host_var and group_var directories as well as the templates file. All these elements (playbook, play, tasks) are hierarchically listed in an YAML file.
+
+```tree
+#PLAYBOOK.yml#
+- Play 1
+ - Task 1
+ - Task 2
+ - Task 3
+- Play 2
+ - Task 1
+ - Task 2
+
+ and so on!
+```
 
 ### Using 'ansible-doc'
 
