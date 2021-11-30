@@ -129,9 +129,16 @@ Access the lab once the container is very straightfoward. After the container is
     cd Ansible-IOSXE-Always-On-Demo
     ```
 
-6. Once you are the ```Ansible-IOSXE-Always-On-Demo``` directory you are ready to start the lab.
+6. Once you are in the ```Ansible-IOSXE-Always-On-Demo``` directory you are ready to start the lab.
 
-7. When you are done with the labe you can simply type ```exit```. If you would like to stop the container then running the following command after you have exited it.
+    ```bash
+    # To verify that you are in the right directory use the 'pwd' command 
+    # and you should have the following output:
+    root@c91ff98ffdec:~/Ansible-IOSXE-Always-On-Demo# pwd
+    /root/Ansible-IOSXE-Always-On-Demo
+    ```
+
+7. When you are done with the lab you can simply type ```exit```. If you would like to stop the container then running the following command after you have exited it.
 
     ```bash
     docker stop ansible-demo
@@ -142,6 +149,8 @@ Access the lab once the container is very straightfoward. After the container is
     ```bash
     docker start ansible-demo
     ```
+
+    Once your container is back up and running you can just start from step 3 in this section.
 
 ## Exploring the Anisble File Structure
 
@@ -184,10 +193,13 @@ There are some folders here that you are not really part of 'Ansible' but just p
 
 Let's start your Ansible demonstration here!
 
-1. Be sure you are in the ```Ansible-IOSXE-Always-On-Demo``` folder.
+1. Be sure you are in the ```-IOSXE-Always-OnAnsible-Demo``` folder, use the 'pwd' command to verify. If you run into issues then refer to the section [Accessing the Lab](#accessing-the-lab)
 
     ```bash
     pwd
+
+    # You should be in this directory:
+    /root/Ansible-IOSXE-Always-On-Demo
     ```
 
 2. To be sure that the always on device is available, let's ssh into sandbox-iosxe-recomm-1.cisco.com since ping will not work.
@@ -197,9 +209,24 @@ Let's start your Ansible demonstration here!
     ```
 
     The password is ```C1sco12345```. 
-    You should be able to log into the CSR. Once you are logged in you can log back out.
+    You should be able to log into the CSR. Once you are logged in you can log back out. If you are unable to log in there may  be a problem with the always on device. Hey, its open to the public! ```¯\_(ツ)_/¯```. If you run into issues you rearch out to the [Sandbox Forums](https://community.cisco.com/t5/devnet-sandbox/bd-p/4426j-disc-dev-devnet-sandbox). You also can run this lab on the other always CSR that is running the latest code. That URL is ```sandbox-iosxe-latest-1.cisco.com```. Just remember to update the inventory file ```Ansible-IOSXE-Always-On-Demo/inv.yml```.
 
-3. So let's gather some information about this device.
+3. So let's gather some information about this device. To run the ansible playbook you will use the ```ansible-playbook`` command.
+
+    ```bash
+    ansible-playbook ansible-playbook playbooks/pb-iosxe-get-facts.yml 
+    ```
+
+    If everything is working properly you will get information about the always on router. Ansible is very descriptive ad will do its best to notify you that there is an error. If you get anything colored red when you run this particular playbook that there is something wrong and the script failed. However green is good and if at the end of the playbook you get the following output then the playbook ran successfully.
+
+    Example of what you should have.
+
+    ```bash
+    PLAY RECAP ***************************************************************************************************************************************
+    sandbox-iosxe-recomm-1.cisco.com : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+    ```
+
+Now that you've ran your first playbook let's discuss what an Ansible playbook is.
 
 ### The Anatomy of a Playbook
 
@@ -218,10 +245,29 @@ Ansible uses a YAML file called a playbook, which is a set of instructions that 
  and so on!
 ```
 
+Playbooks are at the heart of ansible and tells Ansible what it is that you want it to do. As we discussed earlier the **tasks** contain **modules** and **modules** are like the verbs of Ansile. Behind the scenes they are made up of code that instruct on how to carry out the action you want it to do. There are numerous modules that are avaialble and Ansible has them all very well documented.
+
 ### Using 'ansible-doc'
+
+One way to lookup information about ansible is going to [docs.ansible.com](https://docs.ansible.com/), but Ansible also provides you a quick way of looking up information about ansible in the command line. You can use the ```ansible-doc``` command to look up information about a particular module. The becomes very useful when you are trying to write your own playbooks. ```ansible-doc``` is like using a ```man``` page and uses vim like features that allows you to search the document. 
+
+Take a moment to review the ```cli_config``` module, which will be a module that you will be using later in this demonstration.
+
+```bash
+ansible-doc cli_config
+
+# Then use type 'q' when you are done reviewing to exit.
+```
 
 ## Using Jinja2 Templates with Ansible
 
+Ansible provides a convienent way of Templating by allowing to utilize the Jinja tempalating language.
+
 ## Configuring an Interface
 
+    **COMING SOON**
+
 ## Being a Good Citizen
+
+    **COMING SOON**
+
