@@ -1,0 +1,9 @@
+*.yml
+*.cfg
+*.j2
+.git
+.python-version
+group_vars/
+host_vars/
+playbooks/
+templates/
