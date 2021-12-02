@@ -1,5 +1,7 @@
 # Ansible-IOSXE-Always-On-Demo
 
+[![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/barweiss45/Ansible-IOSXE-Always-On-Demo)
+
 ## Introduction
 
 For the past few years the network engineering industry has been bombarded with new ideas about Network Automation, Software Defined Networks, Infrastructure as Code (IaC), and the like. It can be really overwhelming to keep out with these new technologies while just keeping up with your day to day work. As a network engineer in the past, when I would hear about all the new automation rage that was supposed to make my work easier I always found myself saying, "Ok where do I start." When I first started my Network Automation journey I was like many other Network Engineers, I lived in the world of the command line interface of systems like IOS or JunOS and the like. I eat and breathed layers 1 through 3 and sometimes 4 of the OSI model and frankly I was pretty much just concerned about getting data from point A to point B. I would like to call it being a "data plumber" and as far as DevOps and programmability was concerned that was someone elses problem. Therefore when it came time for to learn I would spend hours trying to set up my environment and troubleshoot why the very thing I was supposed to test didn't work. I would wast evening and weekends of my life just trying to get the lab to function so I could, learn about Network Automation. That is why I made this demo. It is my goal that the containerized environment will take away the hours spent trying to just get your environment set up. Furthermore, Cisco DevNet's always on IOS XE router sandboxes are the perfect place to test your playbooks. By the end of this demo it is my hope you will see the possiblities of a working ansible environment in acttion and encourage you to begin a deeper journey into Network automation and programibility.
@@ -287,6 +289,59 @@ Interfaces:
 ```
 
 The variables are surrounded by double curly braces ```{{ }}``` and these variables values are pulled from various parts of Ansible. As you recall when we ran the playbook ```pb-iosxe-get-facts.yml``` the output about the facts were displayed in a key value pair format (formatted in YAML). In the first part of the templay the variables are the keys that were in the get facts output and when this template gets rendered by Ansible it will uses the values retrieved from the ```ios_facts``` module. In the second part of the template where the interfaces information is rendered we are able to leverage jinja2 flexible programibility to iterate the nested dictionary in the output for each interface. This comes handy when we don't know how many interfaces a device will have and since the host sandbox-iosxe-recomm-1.cisco.com is open the public and anyone can configure it, there are a multitude of interfaces configured at any time. Jinja is capable of all sorts of programibilty like loops, condiditionals, filters, etc.
+
+Let's go ahead and take a moment to review the ```pb-iosxe-get-facts-with-template.yml``` playbook.
+
+```yaml
+---
+# This playbook is very basic and is used to demonstrate the basics about ansible
+- name: "PLAY 1: This playbook gathers facts from sandbox-iosxe-recomm-1.cisco.com and prints them in the output and then saves it to the output folder"
+  hosts: routers           # THIS WILL REFER TO THE HOST/GROUP THAT THIS PLAY IS TARGETING
+  connection: network_cli  # FOR NETWORK DEVICES THE CONNECTION WILL BE 'network_cli'
+  tasks:                   # BELOW TASKS IS WHERE EACH TASK IS DEFINED
+    - name: "TASK 1: Connect to the device to gather facts about it"
+      ios_facts:
+      register: raw_facts
+
+    - name: "TASK 2: Print out some information about the device that is formatted on the cli"
+      debug:
+        msg: "The hostname is {{ ansible_net_hostname }} and the OS is {{ ansible_net_version }}"
+
+    - name: "TASK 3: Print the raw output"
+      debug:
+        msg: "{{ raw_facts }}"
+
+    - name: "TASK 4: Create outputs/ folder if it does not exist"
+      file:
+        path: "outputs"
+        state: directory
+        mode: 0775
+      run_once: true
+
+    - name: "TASK 5: send the output of raw_facts to a nice template and print it to a file"
+      copy:
+        content: "{{ lookup( 'template', '../templates/facts-template.j2') }}"
+        dest: "outputs/{{ inventory_hostname }}.txt"
+        mode: 0664
+```
+
+You will can see that you are even able to use jinja inside the Tasks as well. In this playbook we will run a similar play as the first playbook but this time we will create a folder called outputs if it doesn't exist and then send the output of the playbook to the output directory in the form of a .txt file named after the hostname of the device. Take note of task 5 in the playbook:
+
+```YAML
+    - name: "TASK 5: send the output of raw_facts to a nice template and print it to a file"
+      copy:
+        content: "{{ lookup( 'template', '../templates/facts-template.j2') }}"
+        dest: "outputs/{{ inventory_hostname }}.txt"
+        mode: 0664
+```
+
+You will see that we are using the ```copy``` module and nested below is the options. The option content is using the ```lookup``` filter which tells ansible that we are looking for a ```'template'``` in the destination of ```'../templates/facts-template.j2'```. Ansible will then render that template using the variables that have beend defined including the key values that were retrieved from the ```ios_facts``` module.
+
+Before running the ```pb-iosxe-get-facts-with-template.yml``` be sure you are in the ```:~/Ansible-IOSXE-Always-On-Demo``` folder. To run the command you can enter the command:
+
+```bash
+ansible-playbook playbooks/pb-iosxe-get-facts-with-template.yml
+```
 
 ## Configuring an Interface
 
