@@ -261,7 +261,32 @@ ansible-doc cli_config
 
 ## Using Jinja2 Templates with Ansible
 
-Ansible provides a convienent way of Templating by allowing to utilize the Jinja tempalating language.
+Ansible provides a convienent way of templating by using the Jinja tempalating engine. For more information about the specifics of Jinja2 and what it can do I recommend visiting thier repo at [github.com/pallets/jinja](https://github.com/pallets/jinja) and reading their README.md as well as their official docmentation at [jinja.palletsprojects.com](https://jinja.palletsprojects.com/en/3.0.x/). One particular piece of documentation I highly recommend reading Ansible's official documentation on [templating with Jinja2](https://docs.ansible.com/ansible/latest/user_guide/playbooks_templating.html). One of the benefits of templating with Jinja is the ability to limit the size of your playbooks. Imagine if you had to update a 100 routers with a new loopback interface without templating. Without templating you would have to write out each command for each loopback on each router. Another example is if you had a standardized base config that always used the same base commands but the values were different (e.g. different NTP servers, DNS servers, Hostnames, etc). This scenarios are made easier with templating. In ansible all the templates are found in the ```templates``` folder.
+
+The jinja2 templates allow you to build a skeleton of your configurations and then you are able to place in varable placeholders that point back to variables that are set through anisble wether it been in a ```playbook```, the ```host_vars```, or the ```group_vars``` directory. This flexibilty lends itself to allow your playbooks to be portable and requires less work to automate to a large amount of devices with various varilables in their configurations. Take a moment to review the the ```templates``` folder. You will notice that all the files end with the ```.j2``` extension.
+
+This is the ```facts-template.j2```:
+
+```jinja
+Sandbox Device Gather Facts output:
+Hostname: {{ ansible_net_hostname }}
+Model: {{ ansible_net_model }}
+IOS type: {{ ansible_net_iostype }}
+OS Version: {{ ansible_net_version }}
+Serial: {{ ansible_net_serialnum }}
+Interfaces:
+  {% for  iname, idata  in raw_facts['ansible_facts']['ansible_net_interfaces'].items() %}
+    Interface: {{ iname }}
+    Decription: {{ idata.description}}
+     {% for ip in idata.ipv4 %}
+    Ipv4 address/cidr: {{ ip['address'] }}/{{ ip['subnet'] }}
+     {% endfor %}
+    Status: {{ idata.operstatus }}
+      ======================
+      {% endfor %}
+```
+
+The variables are surrounded by double curly braces ```{{ }}``` and these variables values are pulled from various parts of Ansible. As you recall when we ran the playbook ```pb-iosxe-get-facts.yml``` the output about the facts were displayed in a key value pair format (formatted in YAML). In the first part of the templay the variables are the keys that were in the get facts output and when this template gets rendered by Ansible it will uses the values retrieved from the ```ios_facts``` module. In the second part of the template where the interfaces information is rendered we are able to leverage jinja2 flexible programibility to iterate the nested dictionary in the output for each interface. This comes handy when we don't know how many interfaces a device will have and since the host sandbox-iosxe-recomm-1.cisco.com is open the public and anyone can configure it, there are a multitude of interfaces configured at any time. Jinja is capable of all sorts of programibilty like loops, condiditionals, filters, etc.
 
 ## Configuring an Interface
 
