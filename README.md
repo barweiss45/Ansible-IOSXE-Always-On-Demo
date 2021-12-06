@@ -345,7 +345,42 @@ ansible-playbook playbooks/pb-iosxe-get-facts-with-template.yml
 
 ## Configuring an Interface
 
-    **COMING SOON**
+***Under Construction***
+
+Retriving information is one thing that Ansible is great at doing but now we really want to leverage to power of automation by configuring network devices. There are many modules out there that you can use to configure your network device. Ansible ships with a multitude of modules for various vendors, including Cisco. There are also vendor netrual modules focused on network configuration. We are going ot be focused on the ```cli_config``` module. This module allows us to enter confiiguration commands into the the router as if we were directly in ```conf t``` ourselves. This module works for IOS, IOS XE, and even IOS XR. Please read the documentation by running the following the command line:
+
+```bash
+ansible-doc cli_config
+```
+
+After reviewing the documentation, take a moment to review the playbook in the ```./playbooks``` folder. Let's breakdown the playbook and see what is going on here.
+
+First we have to create the name of the play book, just like wat we did in the previous 'get facts' playbooks we ran earlier. In this section you are naming the playbook, telling ansible which hosts to make the change on, and the connection type. In this case, I created a descriptive line in the 'name' section and the playbook will access the 'routers' group in the inventory (the file named inv.yml) which is defined in the 'hosts' key. Since we are going to access a network device over ssh we will set the 'connection' key to 'network_cli'. After that, we need to define the tasks.
+
+```yaml
+---
+- name: "PLAY 1: This playbook configures loopback interfaces on sandbox-iosxe-recomm-1.cisco.com using a cli_conig module and a jinja"
+  hosts: routers            # THIS WILL REFER TO THE HOST/GROUP THAT THIS PLAY IS TARGETING
+  connection: network_cli   # FOR NETWORK DEVICES THE CONNECTION WILL BE 'network_cli'
+```
+
+Next is the tasks section. The tasks section is similar to the the other playbooks we ran. Here we can see that we are using the ```cli_config``` module. In the ```config``` key we are using a filter to tell Ansible to use the ```interface-template.j2``` jinja template in the ```templates``` folder. We are using a template again, otherwise if we didn't use a template we would have to list out each specific command in the config section. Just like in our earlier example using templates give us much more fexiblity in our playbooks. Take a moment to review ```templates/interface-template.j2``` file, you'll see that the values such as IP address and subnet mask as retrieved from the variables that are stored in the ```host_vars``` folder.  
+
+```yaml
+  tasks:                    # BELOW TASKS IS WHERE EACH TASK IS DEFINED
+    - name: "TASK 1: Configure the loopback interfaces that are listed in the host_vars/ directory"
+      cli_config:
+        config: "{{ lookup('template', '../templates/interface-template.j2') }}"
+      notify: config_changed  # a conditional that notifies the handler below if the configuration has changed.
+      register: cli_result    # save the output to the 'cli_result'
+
+  handlers:
+    - name: "HANDLER OUTPUT: Display output of TASK 1 if configure has changed"
+      listen: config_changed  # If the notify sends then config_changed then run debug.msg below
+      debug:
+        msg: "{{ cli_result }}"
+```
+
 
 ## Being a Good Citizen
 
