@@ -93,7 +93,7 @@ Access the lab once the container is very straightfoward. After the container is
 1. First you will need to run the container to get it going.
 
     ```bash
-    docker run -dit --name ansible-demo ansible-iosxe-always-on-demo:latest bash
+    docker run -dit --rm --name ansible-demo ansible-iosxe-always-on-demo:latest
     ```
 
 2. If the command is successful you will see a container ID (is a hash) returned in the next line. You can also verify with the following command.
