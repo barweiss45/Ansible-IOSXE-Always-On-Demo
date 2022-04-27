@@ -1,0 +1,28 @@
+---
+# tasks file for pre-post-checks
+    - name: "ROLE TASK 1: set time for {{ pre_post_flag }}-check"
+      set_fact: # setting facts allows us to make variables that are easy to refer to later and are calculated at runtime
+        date_stamp: "{{lookup('pipe','date +%Y-%m-%d_%H:%M')}}" # Pipe lookup plugin reads output from a command, easiest way to grab date/time to make unique filename
+      run_once: true
+
+    - name: "ROLE TASK 2: set fact for {{ pre_post_flag }}-change filename which uses date"
+      set_fact:
+        output_file: "./outputs/{{ inventory_hostname }}/{{ pre_post_flag }}_change/{{ date_stamp }}_{{ inventory_hostname }}.txt" # the output folder is in gitignore and we make a unique filename based on current time
+
+    - name: "ROLE TASK 3: ensure directory for each device exists {{ pre_post_flag }}-change output"
+      file:
+        path: ./outputs/{{ inventory_hostname }}/{{ pre_post_flag }}_change/ # we make a dir per hostname and then create a sub-folder to organize the pre-change outputs
+        state: directory
+
+    - name: "ROLE TASK 4: send {{ pre_post_flag }}-change show commands"
+      cli_command:
+        command: '{{ item }}' # sending multiple commands requires a loop with this module since it expects a string, we feed it in with the loop / item
+      loop: "{{ show_command_list }}" # this is defined in role defaults/main.yml
+      register: show_result # this result is going to get fed into our Jinja2 template to then get written to our pre-change output
+
+    - name: "ROLE TASK 5: send the output of {{ pre_post_flag }}-change commands to a nice template and print it to a file"
+      copy:
+        content: "{{ lookup( 'template', 'pre-post-template.j2') }}" # the template plugin applies the Jinja2 template with our show command variables in memory from the previous task
+        dest: "{{ output_file }}" # we defined this long name in task 2 as a fact based on date time and hostname 
+        mode: 0664
+

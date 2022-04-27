@@ -1,0 +1,6 @@
+---
+# defaults file for pre-post-checks
+show_command_list:
+  - "show ip interface brief"
+  - "show interfaces"
+  - "show ip route"

@@ -1,0 +1,27 @@
+---
+# vars file for configure-loopback
+interfaces:
+  Loopback1337:
+    description: "This is a loopback configured by ansible"
+    ipv4addr: "10.123.124.100"
+    subnet: "255.255.255.255"
+
+  Loopback1338:
+    description: "This is a loopback configured by ansible"
+    ipv4addr: "10.123.124.101"
+    subnet: "255.255.255.255"
+
+  Loopback1339:
+    description: "This is a loopback configured by ansible"
+    ipv4addr: "10.123.124.102"
+    subnet: "255.255.255.255"
+
+  Loopback1340:
+    description: "This is a loopback configured by ansible"
+    ipv4addr: "10.123.124.103"
+    subnet: "255.255.255.255"
+
+  Loopback1341:
+    description: "This is a loopback configured by ansible"
+    ipv4addr: "10.123.124.104"
+    subnet: "255.255.255.255"

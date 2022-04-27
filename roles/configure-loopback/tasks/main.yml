@@ -1,0 +1,11 @@
+---
+# tasks file for configure-loopback
+  - name: "ROLE TASK 1: CONFIGURE LOOPBACKS"
+    ios_config:
+      src: "role-interface-template.j2"
+    when: "rollback_flag == False"  # defaults/main.yml rollback_flag is False by default
+  
+  - name: "ROLE TASK 2: ROLL BACK LOOPBACKS"
+    ios_config:
+      src: "role-good-citizen-interface-template.j2"
+    when: "rollback_flag == True"  # defaults/main.yml rollback_flag is False by default

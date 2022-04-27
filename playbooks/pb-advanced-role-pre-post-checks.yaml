@@ -1,0 +1,50 @@
+---
+
+- name: "PLAY 1: USING MULTIPLE ROLES"
+  hosts: routers            
+  connection: network_cli   
+  tags: "conf" # can run just this play by using tags ansible-playbook playbooks/pb-advanced-role-pre-post-checks.yaml --tags conf
+  tasks:     
+    - name: "Import a role within the playbook to configure loopbacks"
+      import_role:
+        name: "pre-post-checks"
+      vars:
+        pre_post_flag: "pre"
+
+    - name: "Import a role within the playbook to verify interfaces"
+      import_role:
+        name: "configure-loopback"
+
+    - name: "Import a role within the playbook to rollback the configuration of loopbacks"
+      import_role:
+        name: "pre-post-checks"
+      vars:
+        pre_post_flag: "post"
+      
+
+- name: "PLAY 2: USING MULTIPLE ROLES"
+  hosts: routers            
+  connection: network_cli   
+  tags: "rollback" # can run just this play by using tags ansible-playbook playbooks/pb-advanced-role-pre-post-checks.yaml --tags rollback
+  tasks:     
+    - name: "Import a role within the playbook to configure loopbacks"
+      import_role:
+        name: "pre-post-checks"
+      vars:
+        pre_post_flag: "pre"
+        show_command_list:
+          - "show version"
+          - "show inventory"
+
+    - name: "Import a role within the playbook to verify interfaces"
+      import_role:
+        name: "configure-loopback"
+      vars:
+        rollback_flag: True
+
+    - name: "Import a role within the playbook to rollback the configuration of loopbacks"
+      import_role:
+        name: "pre-post-checks"
+      vars:
+        pre_post_flag: "post"
+      

@@ -1,0 +1,9 @@
+---
+# tasks file for show-command-basic
+
+  - name: run multiple commands on remote nodes
+    ios_command:
+        commands:
+          - show ip interface brief
+          - show ip route
+    register: show_command_output
