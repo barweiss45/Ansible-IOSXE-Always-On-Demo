@@ -1,0 +1,11 @@
+---
+
+- name: "PLAY 1: SHOW COMMANDS FROM ROLE"
+  hosts: routers            
+  connection: network_cli   
+  roles: # when roles imported here the tasks in the role are executed before tasks in this playbook, any variables created are carried over
+    - show-command-basic 
+  tasks:      
+    - name: "Print sample-role show command output"
+      debug:
+        msg: "{{ show_command_output.stdout_lines }}" # show_command_output variable defined in show-command-basic/tasks/main.yml 

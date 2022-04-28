@@ -1,0 +1,38 @@
+---
+
+- name: "PLAY 1: USING MULTIPLE ROLES"
+  hosts: routers            
+  connection: network_cli   
+  tasks:     
+    - name: "Import a role within the playbook to configure loopbacks"
+      import_role:
+        name: "configure-loopback"
+      
+    - name: "Import a role within the playbook to verify interfaces"
+      import_role:
+        name: "show-command-basic"
+
+    - name: "Print sample-role show command output"
+      debug:
+        msg: "{{ show_command_output.stdout_lines }}" # show_command_output variable defined in show-command-basic/tasks/main.yml 
+
+
+- name: "PLAY 2: SHOW COMMANDS FROM ROLE"
+  hosts: routers            
+  connection: network_cli   
+  tasks:     
+
+    - name: "Import a role within the playbook to rollback the configuration of loopbacks"
+      import_role:
+        name: "configure-loopback"
+      vars:
+        rollback_flag: True
+      
+    - name: "Import a role within the playbook to verify interfaces"
+      import_role:
+        name: "show-command-basic"
+
+    - name: "Print sample-role show command output"
+      debug:
+        msg: "{{ show_command_output.stdout_lines }}" # show_command_output variable defined in show-command-basic/tasks/main.yml 
+
